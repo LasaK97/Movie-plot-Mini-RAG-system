@@ -1,0 +1,47 @@
+data:
+  dataset_path: "data/raw/wiki_movie_plots_deduped.csv"   #raw data path
+  sample_size: 300          #no of filtered movies
+  filters:
+    min_plot_length: 100        # Minimum words in plot
+    year_from: 2000              # Movies from this year onwards
+    year_to: null                # Movies up to this year (null = no limit)
+  random_seed: 42
+
+text_processing:
+  chunking:
+    size: 300            # words per chunk
+    overlap: 50          # overlapping words between chunks
+    min_chunk_size: 50   #min chunck size
+
+embedding:
+  model: "all-MiniLM-L6-v2"     # model name
+  dimension: 384                 # dimension
+  batch_size: 32                # batch size
+  normalize: true               # normalize -> L2
+  show_progress: true           # show progress when generating
+
+vector_store:
+  index_type: "IndexFlatL2"     # FAISS exact search
+  metric: "l2"                  #distance metric [options: l2 | cosine]
+
+llm:
+  provider: "openrouter"
+  model: "deepseek/deepseek-chat"
+  api_url: "https://openrouter.ai/api/v1/chat/completions"
+
+  parameters:
+    temperature: 0.7            # sampling temp
+    max_tokens: 500             # maximum tokens in response
+    timeout: 30                 # API timeout (s)
+  retry:
+    max_attempts: 3             # maximum retry attempts
+    backoff_factor: 2           # exp backoff multiplier
+
+retrieval:
+  top_k: 3                      #no of chunks to retrieve
+  max_context_length: 400       #maximum chars per context
+  min_similarity: 0.0           #maximum similarity threshold
+
+system:
+  verbose: true                 #print detials
+  log_level: "INFO"             # log levels [DEBUG, INFO, WARNING, ERROR]
