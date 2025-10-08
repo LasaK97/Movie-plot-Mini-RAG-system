@@ -1,6 +1,6 @@
 data:
   dataset_path: "data/raw/wiki_movie_plots_deduped.csv"   #raw data path
-  sample_size: 300          #no of filtered movies
+  sample_size: 500          #no of filtered movies
   filters:
     min_plot_length: 100        # Minimum words in plot
     year_from: 2000              # Movies from this year onwards
